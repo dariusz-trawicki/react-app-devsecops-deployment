@@ -34,9 +34,8 @@ terraform apply
 
 ## Step 2: Build the Docker image with a React app example (application code from GitHub)
 
-Open: `AWS >  EC2 > Instances` - check the server and click `Connect`.
+Open: `AWS >  EC2 > Instances` - check the server and click `Connect` and run:
 
-Run 
 ```bash
 git clone https://github.com/dariusz-trawicki/react-app-example
 cd react-app-example
