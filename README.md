@@ -14,7 +14,7 @@ We would be making use of Terraform to launch the EC2 instance. We would be addi
 ### Create EC2 instance
 
 Update the parameters in `terraform.tfvars` with your own AWS details:
-- `server_name` – a custom name for your server (e.g., `my-ec2-server`)
+- `server_name` – a custom name for your server (e.g., `jenkins-server`)
 - `vpc_id` – the ID of your existing VPC in AWS (e.g., `vpc-0123456789abcdef0`)
 - `ami` – the ID of the `Amazon Machine Image` you want to use (e.g., `ami-0a72753edf3e631b7`)
 - `key_pair` – the name of your existing EC2 key pair for `SSH access`

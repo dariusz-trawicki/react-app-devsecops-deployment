@@ -1,4 +1,4 @@
-server_name   = "my-ec2-server"
+server_name   = "jenkins-server"
 vpc_id        = "vpc-0a202eaf717486382"
 instance_type = "t2.large"
 ami           = "ami-0a72753edf3e631b7"
