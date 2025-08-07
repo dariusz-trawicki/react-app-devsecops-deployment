@@ -221,7 +221,7 @@ aws configure
 # Default region name [None]: eu-central-1
 
 # configure the kubectl to communicate with the EKS cluster
-aws eks update-kubeconfig --name react-app-example-cluster --region eu-central-1
+aws eks update-kubeconfig --name react-app-example-eks --region eu-central-1
 kubectl get nodes
 # IF: command return error like:
 # err="couldn't get current server API group list: the server has asked for the client to provide credentials
@@ -234,12 +234,12 @@ aws sts get-caller-identity
 # }
 
 aws eks create-access-entry \
-  --cluster-name react-app-example-cluster \
+  --cluster-name react-app-example-eks \
   --region eu-central-1 \
   --principal-arn arn:aws:iam::25XXXXXX:user/USER_ACCOUNT_NAME
 
 aws eks associate-access-policy \
-  --cluster-name react-app-example-cluster \
+  --cluster-name react-app-example-eks \
   --region eu-central-1 \
   --principal-arn arn:aws:iam::25XXXXXX:user/USER_ACCOUNT_NAME \
   --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy \
@@ -369,9 +369,10 @@ kubectl get svc argocd-server -n argocd -o json
 # ...
 ```
 
-**NOTE**: Wait a moment (this may take a few moments to finish)...
 
 Open: `http://a304cd3b3d7184132b011b6f4e486c5f-184089738.eu-central-1.elb.amazonaws.com`
+
+**NOTE**: Wait a moment (this may take a few moments to finish)...
 
 Once you get the load balancer hostname details, you can access the `ArgoCD dashboard` through it.
 
@@ -414,7 +415,8 @@ kubectl get svc
 # react-app-example   LoadBalancer   172.20.28.149   a02a6ccf4196e4056b2b2770a9801306-1311311234.eu-central-1.elb.amazonaws.com   3000:31822/TCP   9m39s
 ```
 
-**NOTE**: Wait a moment (this may take a few moments to finish)...
 
 3. Open the application in your browser:
 `http://a02a6ccf4196e4056b2b2770a9801306-1311311234.eu-central-1.elb.amazonaws.com:3000`
+
+**NOTE**: Wait a moment (this may take a few moments to finish)...
