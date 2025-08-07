@@ -3,7 +3,7 @@
 This project deploys a sample React application on an `Amazon EKS cluster` using `DevSecOps methodology`. It use security tools like `OWASP Dependency Check` and `Trivy`.
 It would also be monitoring its `EKS cluster` using monitoring tools such as `Prometheus` and `Grafana`. Most importantly, it would be using `ArgoCD` for deployment.
 
-Github repositories (must be):
+GitHub repositories (required for the example to work correctly):
 - the app: `https://github.com/dariusz-trawicki/react-app-example`
 - the terraform code: `https://github.com/dariusz-trawicki/react-app-devsecops-deployment`
 
@@ -20,7 +20,7 @@ Update the parameters in `terraform.tfvars` with your own AWS details:
 - `key_pair` – the name of your existing EC2 key pair for `SSH access`
 - `subnet_id` – the ID of the subnet in which the server will be launched (e.g., `subnet-0123456789abcdef0`)
 
-Run:
+On the `localhost` run:
 
 ```bash
 git clone https://github.com/dariusz-trawicki/react-app-devsecops-deployment
@@ -71,7 +71,7 @@ sudo systemctl status jenkins
 
 Open: `http://52.59.138.177:8080/manage/pluginManager/available`
 
-Install the following plugins:
+Install the following `plugins`:
 
 1. NodeJS 
 2. Eclipse Temurin Installer
@@ -109,7 +109,7 @@ Click `SAVE`.
 
 ## Step 6: Create a pipeline in order to build and push the dockerized image securely using multiple security tools
 
-Go to `Dashboard > New Item > Pipeline`
+Go to `Dashboard > New Item` -> set Name: e.g. `ReactProject` and choose `Pipeline` and presas `OK`. 
 Choose: `Discard old builds` and set:
 - Keep # of builds to keep: 2
 
@@ -174,17 +174,21 @@ pipeline {
 }
 ```
 
+Press `SAVE` button.
+
+### Run teh pipeline
+
+From the left menu choose `Build Now` link.
+
 ## Step 7: Create an EKS Cluster using Terraform
 
-On `localhost` run:
+On `localhost` (in folder: `react-app-devsecops-deployment/eks`) run:
 
 ```bash
-cd eks
 terraform init
 terraform plan
 terraform apply
 ```
-
 
 ## Step 8: Deploy Prometheus and Grafana on EKS 
 
@@ -207,7 +211,7 @@ helm version
 
 ### Access the EKS cluster
 
-In order to access the cluster use the command below:
+In order to access the cluster use (on EC2 server) the command below:
 
 ```bash
 aws configure
@@ -274,9 +278,16 @@ helm install stable prometheus-community/kube-prometheus-stack -n prometheus
 
 ```bash
 kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus
+
 # In "vi":
 # 1. Press "i" to enter insert mode.
-# 2. Make your changes.
+# 2. Make your changes:
+
+# replace:
+# "type: ClusterIP"
+# with:
+# "type: LoadBalancer"
+
 # 3. Press ESC to exit insert mode.
 # 4. Type ":wq!" and press ENTER to save and exit.
 ```
@@ -287,7 +298,13 @@ kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus
 kubectl edit svc stable-grafana -n prometheus
 # In "vi":
 # 1. Press "i" to enter insert mode.
-# 2. Make your changes.
+# 2. Make your changes:
+
+# replace:
+# "type: ClusterIP"
+# with:
+# "type: LoadBalancer"
+
 # 3. Press ESC to exit insert mode.
 # 4. Type ":wq!" and press ENTER to save and exit.
 
@@ -302,9 +319,6 @@ kubectl get svc -n prometheus
 # ...
 ```
 
-For `Prometheus`:
-Open: `http://a5dae8316e85944b3891c034b19be6ad-1063334104.eu-central-1.elb.amazonaws.com:9090`
-
 For `Grafana`:
 Open: `http://a45a09fd2f627430086d56295e0c7fcc-907585449.eu-central-1.elb.amazonaws.com`
 - username: `admin`
@@ -315,9 +329,14 @@ Open: `http://a45a09fd2f627430086d56295e0c7fcc-907585449.eu-central-1.elb.amazon
    and press `LOAD` button. Select data source as `prometheus` and click
    `IMPORT`.
 
+For `Prometheus`:
+Open: `http://a5dae8316e85944b3891c034b19be6ad-1063334104.eu-central-1.elb.amazonaws.com:9090`
+
 ## Step 9: Deploy ArgoCD on EKS to fetch the manifest files to the cluster
 
 1. Create a `namespace argocd`
+
+On Ec2 run:
 
 ```bash
 kubectl create namespace argocd
@@ -349,6 +368,8 @@ kubectl get svc argocd-server -n argocd -o json
 #                    "hostname": "a304cd3b3d7184132b011b6f4e486c5f-184089738.eu-central-1.elb.amazonaws.com"
 # ...
 ```
+
+**NOTE**: Wait a moment (this may take a few moments to finish)...
 
 Open: `http://a304cd3b3d7184132b011b6f4e486c5f-184089738.eu-central-1.elb.amazonaws.com`
 
@@ -392,6 +413,8 @@ kubectl get svc
 # kubernetes          ClusterIP      172.20.0.1      <none>                                                                       443/TCP          131m
 # react-app-example   LoadBalancer   172.20.28.149   a02a6ccf4196e4056b2b2770a9801306-1311311234.eu-central-1.elb.amazonaws.com   3000:31822/TCP   9m39s
 ```
+
+**NOTE**: Wait a moment (this may take a few moments to finish)...
 
 3. Open the application in your browser:
 `http://a02a6ccf4196e4056b2b2770a9801306-1311311234.eu-central-1.elb.amazonaws.com:3000`
