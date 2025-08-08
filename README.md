@@ -182,7 +182,7 @@ Press `SAVE` button.
 
 ### Run the pipeline
 
-From the left menu choose `Build Now` link.
+From the left menu choose `Build Now` link. The pipeline build and push the image to `Docker Hub`.
 
 ## Step 7: Create an EKS Cluster using Terraform
 
