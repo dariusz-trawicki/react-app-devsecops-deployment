@@ -9,7 +9,7 @@ GitHub repositories (required for the example to work correctly):
 
 ## Step 1: Launch an EC2 Instance and install Jenkins, Docker and Trivy
 
-We would be making use of Terraform to launch the EC2 instance. We would be adding a script as userdata for the installation of Jenkins, Trivy and Docker. 
+We would be making use of Terraform to launch the `EC2 instance`. We would be adding a script as `userdata` for the installation of `Jenkins`, `Trivy` and `Docker`. 
 
 ### Create EC2 instance
 
