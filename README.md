@@ -103,9 +103,11 @@ Click `SAVE`.
 
 2. For the docker registry (must have: an account on `Dockerhub`) -  go to `Manage Jenkins > Credentials > System > Global Credentials -> Add redentials`: Set:
 - kind: `Add username and password`
-- username: `USER_NAME` # replace with real
-- password: `PASSWORD`  # replace with real
+- username: `DOCKERHUB_ACCOUNT_NAME` # replace with real name
+- password: `PASSWORD`  # replace with real pass
 - ID: `docker-cred`
+
+**NOTE**:  In `configuration-files/deployment.yaml` file replace `DOCKERHUB_ACCOUNT_NAME` with real accont name.
 
 ## Step 6: Create a pipeline in order to build and push the dockerized image securely using multiple security tools
 
@@ -114,6 +116,8 @@ Choose: `Discard old builds` and set:
 - Keep # of builds to keep: 2
 
 Use the code below for the `Jenkins pipeline` (`Script` field).
+
+**NOTE**: Replace `DOCKERHUB_ACCOUNT_NAME` with the real account name.
 
 ```bash
 pipeline {
@@ -164,8 +168,8 @@ pipeline {
             steps{
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker'){   
-                    sh "docker tag react-app-example dariusztrawicki/react-app-example:latest"
-                    sh "docker push dariusztrawicki/react-app-example:latest"
+                    sh "docker tag react-app-example DOCKERHUB_ACCOUNT_NAME/react-app-example:latest"
+                    sh "docker push DOCKERHUB_ACCOUNT_NAME/react-app-example:latest"
                     }
                 }
             }
@@ -176,7 +180,7 @@ pipeline {
 
 Press `SAVE` button.
 
-### Run teh pipeline
+### Run the pipeline
 
 From the left menu choose `Build Now` link.
 

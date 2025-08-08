@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: react-app-example
-        image: dariusztrawicki/react-app-example:latest
+        image: DOCKERHUB_ACCOUNT_NAME/react-app-example:latest
         ports:
         - containerPort: 3000
