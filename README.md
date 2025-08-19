@@ -13,6 +13,13 @@ We would be making use of Terraform to launch the `EC2 instance`. We would be ad
 
 ### Create EC2 instance
 
+On the `localhost` run:
+
+```bash
+git clone https://github.com/dariusz-trawicki/react-app-devsecops-deployment
+cd react-app-devsecops-deployment/jenkins-trivy-server
+```
+
 Update the parameters in `terraform.tfvars` with your own AWS details:
 - `server_name` – a custom name for your server (e.g., `jenkins-server`)
 - `vpc_id` – the ID of your existing VPC in AWS (e.g., `vpc-0123456789abcdef0`)
@@ -20,11 +27,9 @@ Update the parameters in `terraform.tfvars` with your own AWS details:
 - `key_pair` – the name of your existing EC2 key pair for `SSH access`
 - `subnet_id` – the ID of the subnet in which the server will be launched (e.g., `subnet-0123456789abcdef0`)
 
-On the `localhost` run:
+Run:
 
 ```bash
-git clone https://github.com/dariusz-trawicki/react-app-devsecops-deployment
-cd react-app-devsecops-deployment/jenkins-trivy-server
 terraform init
 terraform plan
 terraform apply
